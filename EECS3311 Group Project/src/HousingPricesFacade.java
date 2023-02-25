@@ -22,4 +22,6 @@ public class HousingPricesFacade {
 	public List<HousingPrice> getPriceForLocation(String location){
 		
 	}
+	
+	
 }
