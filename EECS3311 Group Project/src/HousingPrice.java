@@ -1,10 +1,11 @@
 import java.util.*;
+import java.time.LocalDate;
 
 public class HousingPrice {
 
 	private String regionLevel;
 	private double price;
-	private Date date;
+	private LocalDate date;
 	private String name;
 	
 	public String getRegion() {
@@ -15,7 +16,7 @@ public class HousingPrice {
 		return this.price;
 	}
 	
-	public Date getDate() {
+	public LocalDate getDate() {
 		return this.date;
 	}
 	
