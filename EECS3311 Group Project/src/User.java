@@ -16,11 +16,11 @@ public class User {
 		return this.name;
 	}
 	
-	public void setRegionLevel(String level){
+	public void setRegionLevel(String level){	//Sets Region level, options are either Province or City.
 		regionLevel=level;
 	}
 	
-	public List<String> getSelectedRegions() {
+	public List<String> getSelectedRegions() {	//Returns locations selected by the user, all of which should belong in one previously-selected region.
 		return this.selectedRegions;
 	}
 	
