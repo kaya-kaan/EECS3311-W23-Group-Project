@@ -1,7 +1,10 @@
 import java.util.*;
 public class HousingDatabase {
 
-	private HashMap<String, List<HousingPrice>> data = new HashMap<String, List<HousingPrice>>();
+	private HashMap<String, List<HousingPrice>> data;
+	public void HousingDatabase(){
+		data = new HashMap<String, List<HousingPrice>>();
+	}
 	
 	public void addPrice(HousingPrice price){
 		data.put(price.name, price);
