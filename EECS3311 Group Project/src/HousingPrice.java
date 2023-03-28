@@ -23,4 +23,20 @@ public class HousingPrice {
 	public String getName() {
 		return this.name;
 	}
+	
+	public String getRegion() {
+		return this.regionLevel;
+	}
+	
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	
+	public void getDate(LocalDate date) {
+		this.date = date;
+	}
+	
+	public void setName() {
+		this.name = name;
+	}
 }
