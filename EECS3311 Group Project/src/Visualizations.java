@@ -3,47 +3,62 @@ public class Visualizations {
 // import the Jfreechart library 
 	private HousingDatabase database;
 	
-	public ArrayList<ChartFrame> loadVisualizations(User name) {
-		ArrayList<ChartFrame> list = new ArrayList<ChartFrame>();
+	public ArrayList<JFreeChart> loadVisualizations(User name, JFreeChart timeseries) {
+		ArrayList<JFreeChart> list = new ArrayList<JFreeChart>();
 		int length = name.selectedVisualizations.length; 
 		for (int i = 0; i < length; i++) { 
 			if (name.selectedVisualizations[i] == "piechart") { 
-				ChartFrame piechart = createPieChart(Table) // make piechart from the original table of the data	
+				JFreeChart piechart = createPieChart(timeseries) 	
 				list.add(piechart);
 			} 
-			// else if statements for other visuals (bar graph, line chart, scatter plot etc) 
-			
+			else if (name.selectedVisualizations[i] == "scatterplot") { 
+				JFreeChart scatterplot = createScatterPlot(timeseries) 
+				list.add(scatterplot);
+			} 
+			else if (name.selectedVisualizations[i] == "bargraph") { 
+				JFreeChart bargraph = createBarGraph(timeseries) 
+				list.add(bargraph);
+			}
+			else if (name.selectedVisualizations[i] == "linechart") { 
+				JFreeChart linechart = createLineChart(timeseries) 
+				list.add(linechart);
+			}	
 		}
-			
+		return list;		
 	}
 	
-	public void tallySelections() { // Need to figure out a threshhold value
+	public JFrame CreateFrame(User name) { 
+		JFrame frame = new JFrame("Visualizations"); // Create a frame and set its size.
+		frame.setSize(800, 600); // This can change, this is just placeholder values.
+		
+		int frameWidth = frame.getWidth(); // Store the height and width of the frame in variables.
+		int frameHeight = frame.getHeight(); 
+		
+		ArrayList<JFreeChart> visuals = loadVisualizations(name); // Get the visualizations the user wants 
+		int length = visuals.length; 
+		
+		Container container = getContentPane(); // Create the container and set the grid layout so there is a column for each visualization.
+		container.setLayout(new GridLayout(1, length));
+		
+		for (int i = 0; i < length; i++) { 
+			visuals[i].getPlot().setPreferredSize(new Dimension(frameWidth/length, frameHeight)); // Set the size of each visualization to an equal portion of the frame.
+			container.add(visuals[i]);
+		}
+		frame.setVisible(true) // Show the frame. 
+		return frame;
+	}
+	
+	public boolean tallySelections() { // Need to figure out a threshhold value
 		int length = name.selectedVisualizations.length; 
-		if (length > threshold) // error message
-		else // good 
-	}
-	
-	public void ClearVisuals(ArrayList<ChartFrame> list) { // clear all visualizations
-		int length = list.length;
-		for (int i = 0; i < length; i++) { 
-			list[i].setVisible(false);	
+		if (length > 3) { 
+			return false;
+		}
+		else { 
+			return true;
 		}
 	}
 	
-	public void ClearVisual(ChartFrame visual) { // clear one specific visual 
-		visual.setVisible(false);
-		
-	}
-		
-	public void presentVisualization(Chartframe visual){ // make a specified visualization visible on the frame
-		visual.pack(); 
-		visual.setVisible(true);
-	}
-	
-	public void presentVisualizations(ArrayList<ChartFrame> list) { // make all visualizations visible on the frame
-		int length = list.length; 
-		for (int i = 0; i < length; i++) { 
-			list[i].setVisible(true);	
-		}
+	public void ClearVisuals(JFrame frame) { // clear all visualizations
+		frame.setVisible(false);
 	}
 }
