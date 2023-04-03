@@ -24,10 +24,6 @@ public class HousingPrice {
 		return this.name;
 	}
 	
-	public String getRegion() {
-		return this.regionLevel;
-	}
-	
 	public void setPrice(double price) {
 		this.price = price;
 	}
@@ -38,5 +34,9 @@ public class HousingPrice {
 	
 	public void setName() {
 		this.name = name;
+	}
+	
+	public void add() {
+		
 	}
 }

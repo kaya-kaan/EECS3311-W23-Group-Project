@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SimpleCSVToHashMap {
+public class HousingDatabase{
 
     public static void main(String[] args) {
         String csvFileName = "ProjectDB.csv";
@@ -60,3 +60,4 @@ public class SimpleCSVToHashMap {
         return dataMap;
     }
 }
+

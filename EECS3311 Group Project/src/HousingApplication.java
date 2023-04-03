@@ -2,7 +2,7 @@ import java.util.*;
 public class HousingApplication {
 
 	private List<HousingPrice> locations = new ArrayList<HousingPrice>();
-	private HousingDatabase database;
+	private static HashMap<String, List<HousingPrice>> database;
 	private User user;
 	
 	public static void main(String[] args) {
@@ -19,13 +19,13 @@ public class HousingApplication {
 	}
 	
 	public List<HousingPrice> comparePrices(List<String> locations) {
-		
-		return ;
+		List<HousingPrice> result = new ArrayList<HousingPrice>();
+		return result;
 	}
 	
 	public User getUser() {
 		
-		return User;
+		return user;
 	}
 
 }
