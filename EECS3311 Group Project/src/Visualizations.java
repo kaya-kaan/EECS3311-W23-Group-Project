@@ -3,24 +3,20 @@ public class Visualizations {
 // import the Jfreechart library 
 	private HousingDatabase database;
 	
-	public ArrayList<JFreeChart> loadVisualizations(User name, JFreeChart timeseries) {
+	public ArrayList<JFreeChart> loadVisualizations(User name, JFreeChart timeseries, string title, string Xlabel, string Ylabel) {
 		ArrayList<JFreeChart> list = new ArrayList<JFreeChart>();
 		int length = name.selectedVisualizations.length; 
 		for (int i = 0; i < length; i++) { 
-			if (name.selectedVisualizations[i] == "piechart") { 
-				JFreeChart piechart = createPieChart(timeseries) 	
-				list.add(piechart);
-			} 
-			else if (name.selectedVisualizations[i] == "scatterplot") { 
-				JFreeChart scatterplot = createScatterPlot(timeseries) 
+			if (name.selectedVisualizations[i] == "scatterplot") { 
+				JFreeChart scatterplot = DrawScatterPlot(timeseries, title, Xlabel, Ylabel) 
 				list.add(scatterplot);
 			} 
 			else if (name.selectedVisualizations[i] == "bargraph") { 
-				JFreeChart bargraph = createBarGraph(timeseries) 
+				JFreeChart bargraph = DrawBarGraph(timeseries, title, Xlabel, Ylabel) 
 				list.add(bargraph);
 			}
 			else if (name.selectedVisualizations[i] == "linechart") { 
-				JFreeChart linechart = createLineChart(timeseries) 
+				JFreeChart linechart = DrawLineGraph(timeseries, title, Xlabel, Ylabel) 
 				list.add(linechart);
 			}	
 		}
@@ -48,9 +44,9 @@ public class Visualizations {
 		return frame;
 	}
 	
-	public boolean tallySelections() { // Need to figure out a threshhold value
+	public boolean tallySelections() { 
 		int length = name.selectedVisualizations.length; 
-		if (length > 3) { 
+		if (length > 2) { 
 			return false;
 		}
 		else { 
