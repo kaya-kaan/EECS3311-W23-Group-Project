@@ -14,7 +14,8 @@ public class HouseHunterCanada extends JFrame implements ItemListener, ActionLis
     private JComboBox<String> startMonthComboBox;
     private JComboBox<Integer> endYearComboBox;
     private JComboBox<String> endMonthComboBox;
-
+    private JComboBox<String> graphType;
+    
     private Map<String, String[]> citiesByProvince;
     
     JLabel titleLabel;
@@ -27,6 +28,7 @@ public class HouseHunterCanada extends JFrame implements ItemListener, ActionLis
     JLabel fromLabel;
     JLabel toLabel;
     JButton runButton;
+
     static String nhpi; 
     
     public HouseHunterCanada() {
@@ -45,6 +47,7 @@ public class HouseHunterCanada extends JFrame implements ItemListener, ActionLis
         mainPanel.setLayout(new GridBagLayout());
 
         // Title label
+        
         titleLabel = new JLabel("HouseHunter Canada");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         GridBagConstraints titleLabelConstraints = new GridBagConstraints();
@@ -156,6 +159,14 @@ public class HouseHunterCanada extends JFrame implements ItemListener, ActionLis
         endMonthComboBoxConstraints.gridy = 5;
         endMonthComboBoxConstraints.anchor = GridBagConstraints.LINE_START;
         mainPanel.add(endMonthComboBox, endMonthComboBoxConstraints);
+        
+        
+        
+        graphType = new JComboBox<>(getGraphTypes());
+        GridBagConstraints graphTypeConstraints = new GridBagConstraints();
+        graphTypeConstraints.gridx = 0;
+        graphTypeConstraints.gridy = 7;
+        graphTypeConstraints.gridwidth = 2;
 
         // Run button
         runButton = new JButton("RUN");
@@ -166,10 +177,9 @@ public class HouseHunterCanada extends JFrame implements ItemListener, ActionLis
         runButtonConstraints.gridwidth = 2;
         runButtonConstraints.insets = new Insets(20, 0, 20, 0);
         
-        
-            
-        
+        mainPanel.add(graphType);
         mainPanel.add(runButton, runButtonConstraints);
+
 
         add(mainPanel, BorderLayout.CENTER);
         pack();
@@ -196,7 +206,10 @@ public class HouseHunterCanada extends JFrame implements ItemListener, ActionLis
         
     }
 
-
+    private String[] getGraphTypes() {
+    	String[] graphs = {"scatter", "line", "bar"};
+    	return graphs;
+    }
     private void updateCityComboBox() {
         String selectedProvince = (String) provinceComboBox.getSelectedItem();
         String[] cities = citiesByProvince.get(selectedProvince);
@@ -269,7 +282,7 @@ public class HouseHunterCanada extends JFrame implements ItemListener, ActionLis
            } else
            	city = (String)cityComboBox.getSelectedItem();
            	
-           Backend process = new Backend((String)provinceComboBox.getSelectedItem(), city , formattedStartDate, formattedEndDate, nhpi);
+           Backend process = new Backend((String)provinceComboBox.getSelectedItem(), city , formattedStartDate, formattedEndDate, nhpi, (String)graphType.getSelectedItem());
            process.run();
            
            //System.out.println(formattedStartDate);
