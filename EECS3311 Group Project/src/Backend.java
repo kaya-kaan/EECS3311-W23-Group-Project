@@ -1,4 +1,4 @@
-package project;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -18,18 +19,20 @@ public class Backend {
 	private String startDate;
 	private String endDate;
 	private String nhpi;
-	private HashMap<String, Double> dataToDraw = new HashMap<String, Double>();
+	private LinkedHashMap<String, Double> dataToDraw = new LinkedHashMap<String, Double>();
+	private String graphType;
 	
-	public Map<String, Double> getDataToDraw() {
+	public LinkedHashMap<String, Double> getDataToDraw() {
 		return dataToDraw;
 	}
 
-	public Backend (String newProvince, String newCity, String newStartDate, String newEndDate, String newNhpi) {
+	public Backend (String newProvince, String newCity, String newStartDate, String newEndDate, String newNhpi, String newGraphType) {
 		this.province = newProvince;
 		this.city = newCity;
 		this.startDate = newStartDate;
 		this.endDate = newEndDate;
 		this.nhpi = newNhpi;
+		this.graphType = newGraphType;
 	}
 	
     public void run() {
@@ -43,6 +46,8 @@ public class Backend {
             Map<String, String[]> dataMap = readCSVDataToHashMap(csvFilePath);
             
             TreeMap<String,String[]> sortedMap = sortByNumericKeys(dataMap);
+            
+            int endCounter =0;
             
             for (Map.Entry<String, String[]> entry : sortedMap.entrySet()) {
             	
@@ -65,6 +70,7 @@ public class Backend {
                 			dataToDraw.put(entry.getValue()[0], Double.parseDouble(entry.getValue()[entry.getValue().length-1]));
                 			//dataToDraw.put(entry.getKey(), Double.parseDouble(entry.getValue()[entry.getValue().length-1]));
                 			System.out.println(entry.getKey() + " , " + entry.getValue()[0] + " , " + Double.parseDouble(entry.getValue()[entry.getValue().length-1]));
+                			
                 		}
                 	}
             	}
@@ -72,18 +78,26 @@ public class Backend {
             	if (valueContainsString(sortedMap, entry.getKey(), endDate))
             	{
             		endReached = true;
-            		startReached = false;
+            		
             	}
             	if (endReached) {
-            		break;
+            		if (endCounter == 120) {
+            			startReached = false;
+            			break;
+            		}
+            		endCounter ++;
             	}
 
             }
+            
+         
         } catch (IOException e) {
             e.printStackTrace();
         }
         
-        ChartDraw draw = new ChartDraw("bar", dataToDraw);
+       
+        
+        ChartDraw draw = new ChartDraw(this.graphType, dataToDraw);
         draw.pack();
         draw.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         draw.setVisible(true);
