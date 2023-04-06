@@ -1,7 +1,8 @@
-package project;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.text.SimpleDateFormat;
@@ -18,6 +19,7 @@ public class HouseHunterCanada extends JFrame implements ItemListener, ActionLis
     
     private Map<String, String[]> citiesByProvince;
     
+    JFrame frame;
     JLabel titleLabel;
     JRadioButton houseOnlyButton;
     JRadioButton landOnlyButton;
@@ -35,8 +37,11 @@ public class HouseHunterCanada extends JFrame implements ItemListener, ActionLis
     	initialize();
     }
     private void initialize() {
-        setTitle("HouseHunter Canada");
+        //setTitle("HouseHunter Canada");
+        frame = new JFrame ("HouseHunter Canada");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        frame.setSize(500, 500);
        
         setLayout(new BorderLayout());
 
@@ -181,10 +186,10 @@ public class HouseHunterCanada extends JFrame implements ItemListener, ActionLis
         mainPanel.add(runButton, runButtonConstraints);
 
 
-        add(mainPanel, BorderLayout.CENTER);
+        frame.add(mainPanel, BorderLayout.CENTER);
         pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     private void initializeCitiesByProvince() {
@@ -222,7 +227,7 @@ public class HouseHunterCanada extends JFrame implements ItemListener, ActionLis
         }
         return years;
     }
-    private String[] getMonths() {
+    public static String[] getMonths() {
         String[] months = {
                 "January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"
@@ -255,41 +260,78 @@ public class HouseHunterCanada extends JFrame implements ItemListener, ActionLis
 	   
    }
    
-   public void actionPerformed(ActionEvent e) {
-       int startYear = (int) startYearComboBox.getSelectedItem();
-       String startMonth = (String) startMonthComboBox.getSelectedItem();
+   public static boolean monthsInOrder (String month1, String month2)
+    {
+       int month1Number = getMonthNumber(month1);
+       int month2Number = getMonthNumber(month2);
+       return month1Number >= month2Number;
+   }
+
+   private static int getMonthNumber (String monthName){
+	   String[] monthNames = getMonths();
        
-       int endYear = (int) endYearComboBox.getSelectedItem();
-       String endMonth = (String) endMonthComboBox.getSelectedItem();
-       
-       SimpleDateFormat monthFormatter = new SimpleDateFormat("MM");
-       SimpleDateFormat monthParser = new SimpleDateFormat("MMMM");
-       
-       
-       
-       try {
-           String startMonthNumber = monthFormatter.format(monthParser.parse(startMonth));
-           String endMonthNumber = monthFormatter.format(monthParser.parse(endMonth));
-           
-           String formattedStartDate = String.format("%d-%s-01", startYear, startMonthNumber);
-           String formattedEndDate = String.format("%d-%s-01", endYear, endMonthNumber);
-           
-           //System.out.println("NHPI: " + nhpi);
-           
-           String city;
-           if (((String)cityComboBox.getSelectedItem()).equals("None")) {
-           	city = "";
-           } else
-           	city = (String)cityComboBox.getSelectedItem();
-           	
-           Backend process = new Backend((String)provinceComboBox.getSelectedItem(), city , formattedStartDate, formattedEndDate, nhpi, (String)graphType.getSelectedItem());
-           process.run();
-           
-           //System.out.println(formattedStartDate);
-           //System.out.println(formattedEndDate);
-       } catch (Exception ex) {
-           ex.printStackTrace();
+       for (int i = 0; i < monthNames.length; i++) {
+    	   if(monthName.equalsIgnoreCase(monthNames[i])) {
+               return i + 1;
+           }
        }
+       return -1;
+       }
+   
+   
+   public void actionPerformed(ActionEvent e) {
+	   
+	   if (nhpi == null)
+		   JOptionPane.showMessageDialog(frame, "Please choose one option from House only, Land only, and Total", "NHPI OPTION ERROR", JOptionPane.ERROR_MESSAGE);
+	   else {
+		   int startYear = (int) startYearComboBox.getSelectedItem();
+	       String startMonth = (String) startMonthComboBox.getSelectedItem();
+	       
+	       int endYear = (int) endYearComboBox.getSelectedItem();
+	       String endMonth = (String) endMonthComboBox.getSelectedItem();
+	       
+	       if (endYear < startYear)
+			   JOptionPane.showMessageDialog(frame, "The end year cannot be before starting year", "END YEAR ERROR", JOptionPane.ERROR_MESSAGE);
+	       else if (endYear == startYear && !monthsInOrder(endMonth, startMonth))
+	       {
+			   JOptionPane.showMessageDialog(frame, "The end date cannot be before starting date", "END MONTH ERROR", JOptionPane.ERROR_MESSAGE);
+	       }
+	       else {
+	    	   SimpleDateFormat monthFormatter = new SimpleDateFormat("MM");
+		       SimpleDateFormat monthParser = new SimpleDateFormat("MMMM");
+		       
+		       
+		       
+		       try {
+		           String startMonthNumber = monthFormatter.format(monthParser.parse(startMonth));
+		           String endMonthNumber = monthFormatter.format(monthParser.parse(endMonth));
+		           
+		           String formattedStartDate = String.format("%d-%s-01", startYear, startMonthNumber);
+		           String formattedEndDate = String.format("%d-%s-01", endYear, endMonthNumber);
+		           
+		           //System.out.println("NHPI: " + nhpi);
+		           
+		           String city;
+		           if (((String)cityComboBox.getSelectedItem()).equals("None")) {
+		           	city = "";
+		           } else
+		           	city = (String)cityComboBox.getSelectedItem();
+		           	
+		           Backend process = new Backend((String)provinceComboBox.getSelectedItem(), city , formattedStartDate, formattedEndDate, nhpi, (String)graphType.getSelectedItem());
+		           process.run();
+		           
+		           //System.out.println(formattedStartDate);
+		           //System.out.println(formattedEndDate);
+		       } catch (Exception ex) {
+		           ex.printStackTrace();
+		       }
+	       }
+
+	       
+	       
+	   }
+	   
+       
        
        
    }
