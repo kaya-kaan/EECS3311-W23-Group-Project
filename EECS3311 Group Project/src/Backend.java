@@ -94,13 +94,30 @@ public class Backend {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
-       
-        
-        ChartDraw draw = new ChartDraw(this.graphType, dataToDraw);
+	    
+	 ChartDraw draw = new ChartDraw(this.graphType, dataToDraw);
         draw.pack();
-        draw.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        draw.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         draw.setVisible(true);
+        
+        List<Double> dataValues = new ArrayList<Double>(getDataToDraw().values());
+        
+        //Creates Table
+        List<String> name = new ArrayList<String>();
+        if (city=="") {
+        	name.add(province);
+            PriceTable table = new PriceTable(name,dataValues);
+            table.pack();
+            table.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            table.setVisible(true);
+        }
+        else {   	
+        name.add(city);
+        PriceTable table = new PriceTable(name,dataValues);
+        table.pack();
+        table.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        table.setVisible(true);
+        }
         
         
         
