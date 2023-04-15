@@ -76,17 +76,17 @@ public class ChartDraw extends JFrame implements ActionListener{
 	private void createChart(String chartType, LinkedHashMap<String, Double> data) {
 		
 		switch (chartType) {
-        case "bar":
-        	this.currentGraph = "bar";
+        case "Bar Graph":
+        	this.currentGraph = "Bar Graph";
             chartPanel = createBarChartPanel(data);
             break;
-        case "scatter":
-        	this.currentGraph = "scatter";
+        case "Scatter Plot":
+        	this.currentGraph = "Scatter Plot";
             chartPanel = createScatterPlotPanel(data);
             break;
-        case "line":
+        case "Line Graph":
         default:
-        	this.currentGraph = "line";
+        	this.currentGraph = "Line Graph";
             chartPanel = createLineChartPanel(data);
             break;
             
@@ -100,18 +100,20 @@ public class ChartDraw extends JFrame implements ActionListener{
 
     private JComboBox chooseGraphType() {
         final JComboBox chooseGraph = new JComboBox();
-        final String[] graphTypes = {"Scatter Plot", "Bar Graph", "Line Graph"};
+        final String[] graphTypes = {"Select Graph Type", "Scatter Plot", "Bar Graph", "Line Graph"};
         chooseGraph.setModel(new DefaultComboBoxModel(graphTypes));
         chooseGraph.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (graphTypes[0].equals(chooseGraph.getSelectedItem())) {
-                	new ChartDraw("scatter", currData);
-                } else if (graphTypes[1].equals(chooseGraph.getSelectedItem())){
-                	new ChartDraw("bar", currData);
-                } else{
-                	new ChartDraw("line", currData);
+                if (graphTypes[1].equals(chooseGraph.getSelectedItem())) {
+                	new ChartDraw("Scatter Plot", currData);
+                } else if (graphTypes[2].equals(chooseGraph.getSelectedItem())){
+                	new ChartDraw("Bar Graph", currData);
+                } else if (graphTypes[3].equals(chooseGraph.getSelectedItem())){
+                	new ChartDraw("Line Graph", currData);
+                } else {
+                	
                 }
             }
         });

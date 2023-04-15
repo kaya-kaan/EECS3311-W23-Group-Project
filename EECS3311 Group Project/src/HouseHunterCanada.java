@@ -212,7 +212,7 @@ public class HouseHunterCanada extends JFrame implements ItemListener, ActionLis
     }
 
     private String[] getGraphTypes() {
-    	String[] graphs = {"scatter", "line", "bar"};
+    	String[] graphs = {"Select Graph Type", "Scatter Plot", "Line Graph", "Bar Graph"};
     	return graphs;
     }
     private void updateCityComboBox() {
