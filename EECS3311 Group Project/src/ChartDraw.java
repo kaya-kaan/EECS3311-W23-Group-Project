@@ -106,15 +106,12 @@ public class ChartDraw extends JFrame implements ActionListener{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (graphTypes[0].equals(currentGraph)) {
-                	ChartDraw scatterDraw = new ChartDraw("scatter", currData);
-                	//createChart("scatter", currData);
-                } else if (graphTypes[1].equals(currentGraph)){
-                	ChartDraw barDraw = new ChartDraw("bar", currData);
-                	//createChart("bar", currData);
-                } else {
-                	ChartDraw lineDraw = new ChartDraw("line", currData);
-                	//createChart("line", currData);
+                if (graphTypes[0].equals(chooseGraph.getSelectedItem())) {
+                	new ChartDraw("scatter", currData);
+                } else if (graphTypes[1].equals(chooseGraph.getSelectedItem())){
+                	new ChartDraw("bar", currData);
+                } else{
+                	new ChartDraw("line", currData);
                 }
             }
         });
