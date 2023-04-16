@@ -102,9 +102,8 @@ public class Backend {
         draw.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         draw.setVisible(true);
         
-        List<Double> dataValues = new ArrayList<Double>(getDataToDraw().values());
-        
         //Creates Table
+        List<Double> dataValues = new ArrayList<Double>(getDataToDraw().values());         
         List<String> name = new ArrayList<String>();
         if (city=="") {
         	name.add(province);
@@ -112,6 +111,12 @@ public class Backend {
             table.pack();
             table.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             table.setVisible(true);
+            
+            
+            PriceTable raw = new PriceTable(province,nhpi,getDataToDraw());
+            raw.pack();
+            raw.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            raw.setVisible(true);
         }
         else {   	
         name.add(city);
@@ -119,6 +124,12 @@ public class Backend {
         table.pack();
         table.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         table.setVisible(true);
+        
+        
+        PriceTable raw = new PriceTable(city,nhpi,getDataToDraw());
+        raw.pack();
+        raw.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        raw.setVisible(true);
         }
         
         
